@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas width="600" height="400"></canvas>
+
+    Escolha uma cor: <input type="color"/>
+    
+    </style>
+
+    <script>
+      let tela = document.querySelector("canvas");
+      let pincel = tela.getContext("2d");
+      let colour = document.querySelector('input')
+
+      pincel.fillStyle = "lightgrey";
+      pincel.fillRect(0, 0, 600, 400);
+      
+      let radius = 5;
+      let drawLock = false;
+
+      const draw = (ev) => {
+        if (drawLock == true) {
+          let x = ev.offsetX;
+          let y = ev.offsetY;
+
+          if (ev.shiftKey == true && radius != 40) {
+            radius += 5;
+          }
+          if (ev.altKey == true && radius != 10) {
+            radius -= 5;
+          }
+          pincel.beginPath();
+          pincel.fillStyle = colour.value
+          pincel.arc(x, y, radius, 0, 2 * 3.14);
+          pincel.fill();
+        }
+      };
+
+      const drawLocked = (ev) => {
+        drawLock = false;
+      };
+      const drawUnlocked = (ev) => {
+        drawLock = true;
+      };
+
+      tela.onmousemove = draw;
+      tela.onmousedown = drawUnlocked;
+      tela.onmouseup = drawLocked;
+
+      
+    </script>
+  </body>
+</html>
